@@ -59,7 +59,6 @@ class D3Chart {
     this.populationForce;
     this.simulation;
     this.breakPoint = breakPoint;
-    this.FNtoggle = false;
     this.titleMain = document.querySelector(".title_one");
     this.titleStat = document.querySelector(".title_two");
     this.build();
@@ -255,23 +254,23 @@ class D3Chart {
       this.currentDemographic === "At least one childhood chronic condition"
     ) {
       this.colourSubCircles([
-        { color: "#505aaf", percentage: 0.28 }, // allergic rhinitis (13%) (28% of sub)
+        { color: "#8f9bd6", percentage: 0.28 }, // hayfever (13%) (28% of sub)
         { color: "#40bf95", percentage: 0.18 }, // asthma (8.2%) (18% of sub)
       ]);
     } else if (
       this.currentDemographic === "At least one long-term health condition"
     ) {
       this.colourSubCircles([
-        { color: "#505aaf", percentage: 0.62 }, // 38% with two or more chronic conditions
+        { color: "#8f9bd6", percentage: 0.62 }, // 38% with two or more chronic conditions
       ]);
     } else if (this.currentDemographic === "Overweight or obese") {
       this.colourSubCircles([
-        { color: "#505aaf", percentage: 0.52 }, // 34% are living with overweight
-        { color: "#40bf95", percentage: 0.48 }, // 32% with obesity
+        { color: "#8f9bd6", percentage: 0.52 }, // 34% are living with overweight
+        { color: "#29a37a", percentage: 0.48 }, // 32% with obesity
       ]);
     } else if (this.currentDemographic === "Childhood obestity 2022") {
       this.colourSubCircles([
-        { color: "#505aaf", percentage: 0.89 }, // 25% are in 2017-18
+        { color: "#8f9bd6", percentage: 0.89 }, // 25% are in 2017-18
       ]);
     } else if (
       this.currentDemographic ===
@@ -292,21 +291,18 @@ class D3Chart {
         "#62626a"
       );
     } else if (this.currentDemographic === "empty set FN") {
-      this.FNtoggle = false;
-
       this.colourSubCircles(
         [
-          { color: "#505aaf", percentage: 0.38 },
+          { color: "#8f9bd6", percentage: 0.38 },
           { color: "#feaa01", percentage: 0.16 },
           { color: "#29a37a", percentage: 0.14 },
-          { color: "#33a8cc", percentage: 0.13 },
+          { color: "#87cdde", percentage: 0.13 },
           { color: "#e9928c", percentage: 0.1 },
         ],
         d3.selectAll(".circle.inactive"),
         "#62626a"
       );
     }
-    this.FNtoggle = false;
   }
 
   defineCustomForces() {
@@ -318,7 +314,7 @@ class D3Chart {
       .forceManyBody()
       .strength(-200)
       .theta(0)
-      .distanceMax(150);
+      .distanceMax(200);
 
     // Save the default initialization method
     let initStatForce = this.statisticForce.initialize;
@@ -339,7 +335,7 @@ class D3Chart {
       .forceManyBody()
       .strength(-200)
       .theta(0)
-      .distanceMax(250);
+      .distanceMax(200);
 
     // Save the default initialization method
     let initPopForce = this.populationForce.initialize;
@@ -439,14 +435,6 @@ class D3Chart {
 
   update(newchartDemographic = this.currentDemographic) {
     this.currentDemographic = newchartDemographic;
-
-    // if (this.currentDemographic === "single circle") {
-    //   // this.randomiseNodes();
-    // }
-
-    if (this.currentDemographic === "empty set FN") {
-      this.FNtoggle = true;
-    }
 
     if (this.currentDemographic === "start") {
       this.randomiseNodes();
