@@ -440,22 +440,21 @@ class D3Chart {
   update(newchartDemographic = this.currentDemographic) {
     this.currentDemographic = newchartDemographic;
 
-    if (this.currentDemographic === "single circle") {
-      // this.randomiseNodes();
-    }
+    // if (this.currentDemographic === "single circle") {
+    //   // this.randomiseNodes();
+    // }
 
     if (this.currentDemographic === "empty set FN") {
-      // this.currentDemographic = "empty set";
       this.FNtoggle = true;
     }
 
     if (this.currentDemographic === "start") {
       this.randomiseNodes();
       this.titleMain.classList.remove("make_visible", "transform_center");
+    } else {
+      this.handleTitles();
+      this.createCircles();
     }
-    this.handleSubCategories();
-    this.handleTitles();
-    this.createCircles();
     this.render();
   }
 
@@ -464,7 +463,7 @@ class D3Chart {
 
     this.getRanges();
 
-    // this.handleSubCategories();
+    this.handleSubCategories();
 
     // this.currentDemographic =
 
