@@ -37,11 +37,12 @@
 
 /* ----- FOR THE PINNED TEXT BOXES ----- */
 
-.pinned_foreground:nth-child(2) > :first-child {
-  margin-top: 60vh !important;
-}
+/* .pinned_foreground:nth-child(2) > :first-child {
+  margin-top: 50vh !important;
+} */
 
-.last_pin {
+.last_pin,
+.first_pin {
   height: 100vh;
   display: flex;
   align-items: center;
@@ -50,6 +51,11 @@
 
 .last_pin,
 .last_pin .pinned_foreground_content {
+  margin-block: unset !important;
+}
+
+.first_pin,
+.first_pin .pinned_foreground_content {
   margin-block: unset !important;
 }
 

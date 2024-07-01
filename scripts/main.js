@@ -51,11 +51,15 @@ class D3Chart {
     this.yRange;
     this.xScale = d3.scaleOrdinal();
     this.yScale = d3.scaleOrdinal();
-    this.radius = 10;
+    this.stroke = 4;
+    this.radius = 10 - this.stroke / 2;
     this.circles;
     this.frameRate = frameRate;
+    this.statisticForce;
+    this.populationForce;
     this.simulation;
     this.breakPoint = breakPoint;
+    this.FNtoggle = false;
     this.titleMain = document.querySelector(".title_one");
     this.titleStat = document.querySelector(".title_two");
     this.build();
@@ -69,7 +73,8 @@ class D3Chart {
   getRanges() {
     if (
       this.currentDemographic === "empty set" ||
-      this.currentDemographic === "single circle"
+      this.currentDemographic === "single circle" ||
+      this.currentDemographic === "empty set FN"
     ) {
       this.xRange =
         window.innerWidth <= this.breakPoint
@@ -131,32 +136,33 @@ class D3Chart {
             .attr("class", (d) =>
               d[this.currentDemographic] > 0
                 ? "circle active"
-                : this.currentDemographic === "single circle"
-                ? "circle hidden"
                 : "circle inactive"
             )
             .attr("fill", (d) =>
-              d[this.currentDemographic] > 0
-                ? "#d8352a"
-                : this.currentDemographic === "single circle"
-                ? "transparent"
-                : "#62626a"
+              d[this.currentDemographic] > 0 ? "#d8352a" : "#62626a"
             )
             .attr("opacity", 0)
             .attr("r", 0)
+            .attr("stroke-width", this.stroke)
             .transition()
             .duration(100)
             .delay((_, i) => i * 5)
             .attr("opacity", 1)
-            .attr("r", this.radius),
+            .attr("r", this.radius)
+            .attr("stroke", (d) =>
+              d[this.currentDemographic] > 0 ? "#d8352a" : "#62626a"
+            ),
+
         (update) =>
-          update.attr("class", (d) =>
-            d[this.currentDemographic] > 0
-              ? "circle active"
-              : this.currentDemographic === "single circle"
-              ? "circle hidden"
-              : "circle inactive"
-          ),
+          update
+            .attr("class", (d) =>
+              d[this.currentDemographic] > 0
+                ? "circle active"
+                : "circle inactive"
+            )
+            .attr("stroke", (d) =>
+              d[this.currentDemographic] > 0 ? "#d8352a" : "#62626a"
+            ),
 
         (exit) =>
           exit
@@ -175,7 +181,10 @@ class D3Chart {
       this.svg.node().classList.add("make_visible");
       this.titleMain.classList.remove("make_visible", "transform_center");
       this.titleStat.classList.remove("make_visible", "transform_center");
-    } else if (this.currentDemographic === "empty set") {
+    } else if (
+      this.currentDemographic === "empty set" ||
+      this.currentDemographic === "empty set FN"
+    ) {
       this.svg.node().classList.add("make_visible");
       this.titleMain.classList.add(
         "make_visible",
@@ -204,8 +213,12 @@ class D3Chart {
     }
   }
 
-  colourSubCircles(colourPercentages) {
-    d3.selectAll(".circle.active").attr("fill", (d, i, nodes) => {
+  colourSubCircles(
+    colourPercentages,
+    selection = d3.selectAll(".circle.active"),
+    defaultColour = "#d8352a"
+  ) {
+    selection.attr("fill", (d, i, nodes) => {
       const totalElements = nodes.length;
 
       // Calculate cumulative thresholds
@@ -225,46 +238,123 @@ class D3Chart {
         }
       }
 
-      return "#d8352a"; // Default stroke for elements that do not match any color range
+      return defaultColour; // Default stroke for elements that do not match any color range
     });
   }
 
   handleSubCategories() {
-    d3.selectAll(".circle").attr("fill", (d) =>
-      d[this.currentDemographic] > 0
-        ? "#d8352a"
-        : this.currentDemographic === "single circle"
-        ? "transparent"
-        : "#62626a"
-    );
+    d3.selectAll(".circle")
+      .attr("fill", (d) =>
+        d[this.currentDemographic] > 0 ? "#d8352a" : "#62626a"
+      )
+      .attr("stroke", (d) =>
+        d[this.currentDemographic] > 0 ? "#d8352a" : "#62626a"
+      );
+
     if (
       this.currentDemographic === "At least one childhood chronic condition"
     ) {
       this.colourSubCircles([
-        { color: "#6d76c5", percentage: 0.28 }, // allergic rhinitis (13%) (28% of sub)
-        { color: "#29a37a", percentage: 0.18 }, // asthma (8.2%) (18% of sub)
+        { color: "#505aaf", percentage: 0.28 }, // allergic rhinitis (13%) (28% of sub)
+        { color: "#40bf95", percentage: 0.18 }, // asthma (8.2%) (18% of sub)
       ]);
     } else if (
       this.currentDemographic === "At least one long-term health condition"
     ) {
       this.colourSubCircles([
-        { color: "#6d76c5", percentage: 0.62 }, // 38% with two or more chronic conditions
+        { color: "#505aaf", percentage: 0.62 }, // 38% with two or more chronic conditions
       ]);
     } else if (this.currentDemographic === "Overweight or obese") {
       this.colourSubCircles([
-        { color: "#6d76c5", percentage: 0.52 }, // 34% are living with overweight
-        { color: "#29a37a", percentage: 0.48 }, // 32% with obesity
+        { color: "#505aaf", percentage: 0.52 }, // 34% are living with overweight
+        { color: "#40bf95", percentage: 0.48 }, // 32% with obesity
       ]);
     } else if (this.currentDemographic === "Childhood obestity 2022") {
       this.colourSubCircles([
-        { color: "#6d76c5", percentage: 0.89 }, // 25% are in 2017-18
+        { color: "#505aaf", percentage: 0.89 }, // 25% are in 2017-18
       ]);
     } else if (
       this.currentDemographic ===
       "Experience physical and/or sexual violence since the age of 15"
     ) {
-      this.colourSubCircles([{ color: "#6d76c5", percentage: 0.487 }]);
+      this.colourSubCircles([{ color: "#505aaf", percentage: 0.487 }]);
+    } else if (this.currentDemographic === "First Nations") {
+      d3.selectAll(".circle").attr("fill", "#62626a").attr("stroke", "#62626a");
+
+      this.colourSubCircles(
+        [{ color: "#d8352a", percentage: 0.286 }],
+        d3.selectAll(".circle.active"),
+        "#62626a"
+      );
+      this.colourSubCircles(
+        [{ color: "#d8352a", percentage: 0.514 }],
+        d3.selectAll(".circle.inactive"),
+        "#62626a"
+      );
+    } else if (this.currentDemographic === "empty set FN") {
+      this.FNtoggle = false;
+
+      this.colourSubCircles(
+        [
+          { color: "#505aaf", percentage: 0.38 },
+          { color: "#feaa01", percentage: 0.16 },
+          { color: "#29a37a", percentage: 0.14 },
+          { color: "#33a8cc", percentage: 0.13 },
+          { color: "#e9928c", percentage: 0.1 },
+        ],
+        d3.selectAll(".circle.inactive"),
+        "#62626a"
+      );
     }
+    this.FNtoggle = false;
+  }
+
+  defineCustomForces() {
+    this.statisticForce;
+    this.populationForce;
+
+    // Custom implementation of a force applied to only every second node
+    this.statisticForce = d3
+      .forceManyBody()
+      .strength(-200)
+      .theta(0)
+      .distanceMax(150);
+
+    // Save the default initialization method
+    let initStatForce = this.statisticForce.initialize;
+
+    // a subset of nodes
+    this.statisticForce.initialize = (nodes) => {
+      const demo = this.currentDemographic;
+      // Filter subset of nodes and delegate to saved initialization.
+      initStatForce(
+        nodes.filter(function (d) {
+          return d[demo] > 0;
+        })
+      ); // Apply to every 2nd node
+    };
+
+    // Custom implementation of a force applied to only every second node
+    this.populationForce = d3
+      .forceManyBody()
+      .strength(-200)
+      .theta(0)
+      .distanceMax(250);
+
+    // Save the default initialization method
+    let initPopForce = this.populationForce.initialize;
+
+    // Custom implementation of .initialize() calling the saved method with only
+    // a subset of nodes
+    this.populationForce.initialize = (nodes) => {
+      const demo = this.currentDemographic;
+      // Filter subset of nodes and delegate to saved initialization.
+      initPopForce(
+        nodes.filter(function (d) {
+          return d[demo] < 1;
+        })
+      ); // Apply to every 2nd node
+    };
   }
 
   build() {
@@ -276,52 +366,32 @@ class D3Chart {
 
     this.yScale.domain([0, 1]).range(this.yRange);
 
+    // Append the defs element
+    const defs = this.svg.append("defs");
+
+    // Append the filter element
+    const filter = defs.append("filter").attr("id", "inner-stroke");
+
+    // Append the feMorphology element
+    filter
+      .append("feMorphology")
+      .attr("in", "SourceAlpha")
+      .attr("operator", "dilate")
+      .attr("radius", 4)
+      .attr("result", "dilated");
+
+    // Append the feComposite element
+    filter
+      .append("feComposite")
+      .attr("in", "SourceGraphic")
+      .attr("in2", "dilated")
+      .attr("operator", "in");
+
     this.randomiseNodes();
 
     this.createCircles();
 
-    // Custom implementation of a force applied to only every second node
-    let statisticForce = d3
-      .forceManyBody()
-      .strength(-200)
-      .theta(0)
-      .distanceMax(150);
-
-    // Save the default initialization method
-    let initStatForce = statisticForce.initialize;
-
-    // a subset of nodes
-    statisticForce.initialize = (nodes) => {
-      const demo = this.currentDemographic;
-      // Filter subset of nodes and delegate to saved initialization.
-      initStatForce(
-        nodes.filter(function (d) {
-          return d[demo] > 0;
-        })
-      ); // Apply to every 2nd node
-    };
-
-    // Custom implementation of a force applied to only every second node
-    let populationForce = d3
-      .forceManyBody()
-      .strength(-200)
-      .theta(0)
-      .distanceMax(250);
-
-    // Save the default initialization method
-    let initPopForce = populationForce.initialize;
-
-    // Custom implementation of .initialize() calling the saved method with only
-    // a subset of nodes
-    populationForce.initialize = (nodes) => {
-      const demo = this.currentDemographic;
-      // Filter subset of nodes and delegate to saved initialization.
-      initPopForce(
-        nodes.filter(function (d) {
-          return d[demo] < 1;
-        })
-      ); // Apply to every 2nd node
-    };
+    this.defineCustomForces();
 
     this.simulation = d3
       .forceSimulation()
@@ -341,8 +411,8 @@ class D3Chart {
           .radius((d) => this.radius * 0.5)
           .iterations(3)
       )
-      .force("pickyStatistic", statisticForce)
-      .force("pickyPopulaiton", populationForce)
+      .force("pickyStatistic", this.statisticForce)
+      .force("pickyPopulation", this.populationForce)
       .force(
         // position y-axis
         "y",
@@ -374,20 +444,29 @@ class D3Chart {
       // this.randomiseNodes();
     }
 
+    if (this.currentDemographic === "empty set FN") {
+      // this.currentDemographic = "empty set";
+      this.FNtoggle = true;
+    }
+
     if (this.currentDemographic === "start") {
       this.randomiseNodes();
       this.titleMain.classList.remove("make_visible", "transform_center");
-    } else {
-      this.handleTitles();
-      this.createCircles();
-      this.render();
     }
+    this.handleSubCategories();
+    this.handleTitles();
+    this.createCircles();
+    this.render();
   }
 
   render() {
     this.getDimensions();
 
     this.getRanges();
+
+    // this.handleSubCategories();
+
+    // this.currentDemographic =
 
     this.svg.attr("width", this.width).attr("height", this.height);
 
@@ -400,8 +479,6 @@ class D3Chart {
         this.currentDemographic === "single circle" ? [this.data[0]] : this.data
       )
       .restart();
-
-    this.handleSubCategories();
   }
 
   pause() {
@@ -433,12 +510,24 @@ function createInteractive() {
               row.id = index;
               row[statisticKey] = 0;
               row["empty set"] = 0;
+              row["empty set FN"] = 0;
               row["single circle"] = index === 0 ? 1 : 0;
 
               return row;
             });
 
-            if (statisticKey === "Overweight or obese") {
+            if (
+              [
+                "Overweight or obese",
+                "Anxiety",
+                "Back problems",
+                "Depression",
+                "Asthma",
+                "Deafness or hearing loss",
+                "Mental disorder among females in the last 12 months (2007)",
+                "Mental disorder among females in the last 12 months (2020-2022)",
+              ].includes(statisticKey)
+            ) {
               // Non randomised circles
               for (
                 let ind = 0;
@@ -461,6 +550,7 @@ function createInteractive() {
         }
 
         allKeys["empty set"] = "Australia";
+        allKeys["empty set FN"] = "First Nations chonic conditions";
         allKeys["single circle"] = null;
       });
 
@@ -488,7 +578,7 @@ function createInteractive() {
         .forEach((step, index, arr) => {
           ScrollTrigger.create({
             trigger: step,
-            start: `top ${index < 1 ? "65%" : "80%"}`,
+            start: `top 80%`,
             onToggle: (self) => {
               if (index === 0 && self.direction < 0) {
                 chart.update("start");
