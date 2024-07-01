@@ -452,10 +452,10 @@ class D3Chart {
       this.randomiseNodes();
       this.titleMain.classList.remove("make_visible", "transform_center");
     } else {
-      this.handleTitles();
       this.createCircles();
+      this.handleTitles();
+      this.render();
     }
-    this.render();
   }
 
   render() {
@@ -464,8 +464,6 @@ class D3Chart {
     this.getRanges();
 
     this.handleSubCategories();
-
-    // this.currentDemographic =
 
     this.svg.attr("width", this.width).attr("height", this.height);
 
