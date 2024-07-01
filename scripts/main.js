@@ -574,7 +574,6 @@ function createInteractive() {
         .toArray(".interactive1 .chapter")
         .forEach((step, index, arr) => {
           ScrollTrigger.create({
-            fastScrollEnd: true,
             trigger: step,
             start: `top 80%`,
             onToggle: (self) => {
@@ -587,11 +586,11 @@ function createInteractive() {
                 chart.update(step.dataset.stat);
               }
             },
-            onLeave: () => {
-              if (index === arr.length - 1) {
-                chart.pause();
-              }
-            },
+            // onLeave: () => {
+            //   if (index === arr.length - 1) {
+            //     // chart.pause();
+            //   }
+            // },
           });
         });
     })
