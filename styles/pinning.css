@@ -4,9 +4,9 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  /* min-height: 100dvh; */
 }
 
+/* STACKS BACKGROUNDS ON TOP OF EACH OTHER */
 .pinned_background > * {
   position: absolute;
 }
@@ -15,12 +15,10 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  /* height: 100dvh; */
 }
 
 .pin_block > *:nth-child(2) {
   margin-top: -100vh;
-  /* margin-top: -100dvh; */
 }
 
 .pin_clipped .pinned_background > * {
@@ -40,10 +38,19 @@
 /* ----- FOR THE PINNED TEXT BOXES ----- */
 
 .pinned_foreground:nth-child(2) > :first-child {
-  margin-top: 80vh !important;
+  margin-top: 60vh !important;
 }
-.pinned_foreground:nth-child(2) > :last-child {
-  margin-bottom: 50vh !important;
+
+.last_pin {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.last_pin,
+.last_pin .pinned_foreground_content {
+  margin-block: unset !important;
 }
 
 .pinned_foreground_content {
@@ -62,6 +69,21 @@
   position: relative;
   pointer-events: none;
   align-items: center;
+}
+
+.pinned_center {
+  margin-inline: auto;
+  width: min(70%, 400px);
+}
+
+.pinned_left {
+  width: min(50%, 400px);
+  margin-right: auto;
+}
+
+.pinned_right {
+  width: min(50%, 400px);
+  margin-left: auto;
 }
 
 .pinned_foreground_content a {
@@ -92,19 +114,16 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  /* height: 100dvh; */
   transition: opacity 0.5s ease-in-out;
 }
 
 .pinned_background video {
   height: 100vh;
-  /* height: 100dvh; */
   object-fit: cover;
 }
 
 .pinned_background picture img {
   height: 100vh;
-  /* height: 100dvh; */
   object-fit: cover;
   position: absolute;
 }
@@ -164,5 +183,13 @@
   .pinned_foreground p {
     width: 90%;
     padding: var(--space--base);
+  }
+
+  .pinned_left,
+  .pinned_right,
+  .pinned_center {
+    width: unset;
+    margin-left: unset;
+    margin-right: unset;
   }
 }

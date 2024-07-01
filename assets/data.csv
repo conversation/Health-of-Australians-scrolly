@@ -1,4 +1,35 @@
-type,total proportion,male,female
-Smoking,22.2,22.1,10
-Obesity,27.1,24.4,7.1
-Alcohol consumption,30.8,27.9,9.0
+type,total proportion,population
+Health percieved as 'good/very good',85,Australia
+At least one long-term health condition,61,Australia
+Two or more long-term health conditions,38,Australia
+Anxiety,18.9,Australia
+Back problems,15.7,Australia
+Depression,12.4,Australia
+Asthma,10.8,Australia
+Deafness or hearing loss,9.6,Australia
+Overweight or obese,66,Australia
+Mental disorder,43,Australia
+Mental disorder among females in the last 12 months (2020-2022),46,All females 16-24
+Mental disorder among females in the last 12 months (2007),30,All females 16-24
+Chronic musculoskeletal conditions,29,Australia
+Arthritis,15,Australia
+Osteoporosis,3.4,Australia
+Chronic kidney disease,11,Australia
+Kidney disease for over 75 year olds,44,All people over 75
+Diabetes,5.1,Australia
+Chronic respirator conditions,34,Australia
+Long-term eye condition,56.7,Australia
+Male suicide deaths,76,All suicide deaths
+Obestity 1995,56,Australia
+Obestity 2022,66,Australia
+Not meeting daily serves of fruit,56,Australia
+Childhood obestity 2017-18,25,5-17 year-olds
+Childhood obestity 2022,28,5-17 year-olds
+At least one childhood chronic condition,45,Children aged 0-14
+Less than 150 minutes of physical activity,37,18-64 year olds
+Consume harmful amount of alcohol,31,Australians 14 years and older
+Young people vaping daily,9.3,18-24 year olds
+Experienced FDV since the age of 15,20,Australians
+Hospitalisations for DV,32,Hospitalisations from assault
+Women who have experienced violence from a partner,17,Women
+Experience physical and/or sexual violence since the age of 15,41,Australians

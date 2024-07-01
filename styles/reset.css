@@ -39,7 +39,10 @@ h6 {
   text-wrap: balance;
 }
 p {
-  text-wrap: pretty;
+  /* text-wrap: pretty; */
+}
+b {
+  font-weight: 900;
 }
 ul {
   margin-left: 2rem;

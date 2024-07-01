@@ -47,8 +47,6 @@ class D3Chart {
       .attr("width", this.width)
       .attr("height", this.height)
       .attr("class", "circle_chart");
-    this.title1;
-    this.title2;
     this.xRange;
     this.yRange;
     this.xScale = d3.scaleOrdinal();
@@ -58,6 +56,8 @@ class D3Chart {
     this.frameRate = frameRate;
     this.simulation;
     this.breakPoint = breakPoint;
+    this.titleMain = document.querySelector(".title_one");
+    this.titleStat = document.querySelector(".title_two");
     this.build();
   }
 
@@ -72,35 +72,28 @@ class D3Chart {
       this.currentDemographic === "single circle"
     ) {
       this.xRange =
-        this.width < this.breakPoint
-          ? [this.width / 2, this.width / 2] // arrange vertically in the middle
-          : [(this.width / 3) * 2, (this.width / 3) * 2]; // float right
+        window.innerWidth <= this.breakPoint
+          ? [this.width / 2, this.width / 2] // arrange horizontally in the middle
+          : [(this.width / 4) * 3, (this.width / 4) * 3]; // float right
 
-      this.yRange = [this.height / 2, this.height / 2];
-
-      // this.xRange = [this.width / 2, this.width / 2]
-      // this.yRange = [this.height / 2, this.height / 2];
-      // this.xRange = [(this.width / 3) * 2, (this.width / 3) * 2]; // float right
+      this.yRange = [this.height / 2, this.height / 2]; // arrange vertically in the middle
     } else {
       this.xRange =
-        this.width < this.breakPoint
-          ? [this.width / 2, this.width / 2] // arrange vertically in the middle
-          : [(this.width / 3) * 2, (this.width / 3) * 2]; // float right
-      // : [this.width / 3, (this.width / 3) * 2];
+        window.innerWidth <= this.breakPoint
+          ? [this.width / 2, this.width / 2] // arrange horizontally in the middle
+          : [(this.width / 4) * 3, (this.width / 4) * 3]; // float 3/4 right
 
-      this.yRange =
-        this.width < this.breakPoint
-          ? [(this.height / 3) * 2, this.height / 3] // arrange vertically in the middle
-          : [(this.height / 3) * 2, this.height / 3]; // float right
-      // : [this.height / 2, this.height / 2];
+      this.yRange = [(this.height / 4) * 3, this.height / 3]; // split upper 1/4 and lower 3/4
     }
   }
 
   randomPosition() {
-    var outerRadius = this.width > this.height ? this.width : this.height; // outer range
-    var innerRadius =
-      this.width > this.height ? (this.width / 3) * 2 : (this.height / 3) * 2; // inner range
-    var startCenter = [(this.width / 3) * 2, (this.height / 3) * 2]; // randomised around center point
+    var outerRadius = this.width * 2; // outer range
+    var innerRadius = this.width / 2; // inner range
+    var startCenter =
+      window.innerWidth <= this.breakPoint
+        ? [this.width / 2, this.height / 2]
+        : [(this.width / 4) * 3, this.height / 2]; // randomised around center point
 
     var angle = Math.random() * Math.PI * 2;
     var distance = Math.random() * (outerRadius - innerRadius) + innerRadius;
@@ -135,9 +128,6 @@ class D3Chart {
         (enter) =>
           enter
             .append("circle")
-            .attr("width", "10px")
-            .attr("height", "10px")
-            .attr("viewBox", "0 0 477.141 477.141")
             .attr("class", (d) =>
               d[this.currentDemographic] > 0
                 ? "circle active"
@@ -145,11 +135,17 @@ class D3Chart {
                 ? "circle hidden"
                 : "circle inactive"
             )
-
+            .attr("fill", (d) =>
+              d[this.currentDemographic] > 0
+                ? "#d8352a"
+                : this.currentDemographic === "single circle"
+                ? "transparent"
+                : "#62626a"
+            )
             .attr("opacity", 0)
             .attr("r", 0)
             .transition()
-            .duration(500)
+            .duration(100)
             .delay((_, i) => i * 5)
             .attr("opacity", 1)
             .attr("r", this.radius),
@@ -166,12 +162,109 @@ class D3Chart {
           exit
             .attr("opacity", 1)
             .transition()
-            .duration(500)
-            .delay((_, i) => i * 5)
+            .duration(300)
+            .delay((_, i) => i * 2)
             .attr("opacity", 0)
             .attr("r", 0)
             .remove()
       );
+  }
+
+  handleTitles() {
+    if (this.currentDemographic === "single circle") {
+      this.svg.node().classList.add("make_visible");
+      this.titleMain.classList.remove("make_visible", "transform_center");
+      this.titleStat.classList.remove("make_visible", "transform_center");
+    } else if (this.currentDemographic === "empty set") {
+      this.svg.node().classList.add("make_visible");
+      this.titleMain.classList.add(
+        "make_visible",
+        "transform_center",
+        "label_center"
+      );
+      this.titleMain.classList.remove("label_left");
+      this.titleStat.classList.remove("make_visible", "transform_center");
+      this.titleMain.innerHTML = this.allDemographics[this.currentDemographic];
+    } else {
+      this.svg.node().classList.add("make_visible");
+      this.titleMain.classList.remove("label_center");
+      this.titleMain.classList.add(
+        "make_visible",
+        "transform_center",
+        "label_left"
+      );
+      this.titleStat.classList.add(
+        "make_visible",
+        "transform_center",
+        "label_right"
+      );
+
+      this.titleStat.innerHTML = this.currentDemographic;
+      this.titleMain.innerHTML = this.allDemographics[this.currentDemographic];
+    }
+  }
+
+  colourSubCircles(colourPercentages) {
+    d3.selectAll(".circle.active").attr("fill", (d, i, nodes) => {
+      const totalElements = nodes.length;
+
+      // Calculate cumulative thresholds
+      let cumulativeEndIndex = 0;
+      const cumulativePercentages = colourPercentages.map((d) => {
+        cumulativeEndIndex += Math.round(d.percentage * totalElements);
+        return {
+          color: d.color,
+          endIndex: cumulativeEndIndex,
+        };
+      });
+
+      // Determine the color based on the index
+      for (let j = 0; j < cumulativePercentages.length; j++) {
+        if (i < cumulativePercentages[j].endIndex) {
+          return cumulativePercentages[j].color;
+        }
+      }
+
+      return "#d8352a"; // Default stroke for elements that do not match any color range
+    });
+  }
+
+  handleSubCategories() {
+    d3.selectAll(".circle").attr("fill", (d) =>
+      d[this.currentDemographic] > 0
+        ? "#d8352a"
+        : this.currentDemographic === "single circle"
+        ? "transparent"
+        : "#62626a"
+    );
+    if (
+      this.currentDemographic === "At least one childhood chronic condition"
+    ) {
+      this.colourSubCircles([
+        { color: "#6d76c5", percentage: 0.28 }, // allergic rhinitis (13%) (28% of sub)
+        { color: "#29a37a", percentage: 0.18 }, // asthma (8.2%) (18% of sub)
+      ]);
+    } else if (
+      this.currentDemographic === "At least one long-term health condition"
+    ) {
+      this.colourSubCircles([
+        { color: "#6d76c5", percentage: 0.62 }, // 38% with two or more chronic conditions
+      ]);
+    } else if (this.currentDemographic === "Overweight or obese") {
+      this.colourSubCircles([
+        { color: "#6d76c5", percentage: 0.52 }, // 34% are living with overweight
+        { color: "#29a37a", percentage: 0.48 }, // 32% with obesity
+      ]);
+    } else if (this.currentDemographic === "Childhood obestity 2022") {
+      this.colourSubCircles([
+        { color: "#6d76c5", percentage: 0.89 }, // 25% are in 2017-18
+      ]);
+    } else if (
+      this.currentDemographic ===
+      "Experience physical and/or sexual violence since the age of 15"
+    ) {
+      this.colourSubCircles([{ color: "#6d76c5", percentage: 0.487 }]);
+    }
   }
 
   build() {
@@ -187,11 +280,55 @@ class D3Chart {
 
     this.createCircles();
 
+    // Custom implementation of a force applied to only every second node
+    let statisticForce = d3
+      .forceManyBody()
+      .strength(-200)
+      .theta(0)
+      .distanceMax(150);
+
+    // Save the default initialization method
+    let initStatForce = statisticForce.initialize;
+
+    // a subset of nodes
+    statisticForce.initialize = (nodes) => {
+      const demo = this.currentDemographic;
+      // Filter subset of nodes and delegate to saved initialization.
+      initStatForce(
+        nodes.filter(function (d) {
+          return d[demo] > 0;
+        })
+      ); // Apply to every 2nd node
+    };
+
+    // Custom implementation of a force applied to only every second node
+    let populationForce = d3
+      .forceManyBody()
+      .strength(-200)
+      .theta(0)
+      .distanceMax(250);
+
+    // Save the default initialization method
+    let initPopForce = populationForce.initialize;
+
+    // Custom implementation of .initialize() calling the saved method with only
+    // a subset of nodes
+    populationForce.initialize = (nodes) => {
+      const demo = this.currentDemographic;
+      // Filter subset of nodes and delegate to saved initialization.
+      initPopForce(
+        nodes.filter(function (d) {
+          return d[demo] < 1;
+        })
+      ); // Apply to every 2nd node
+    };
+
     this.simulation = d3
       .forceSimulation()
-      // .alphaDecay(0.02) // Default is 0.0228, lower it to slow the cooling down
+      // .alphaDecay(0.01) // Default is 0.0228, lower it to slow the cooling down
       .alphaTarget(0.005) // Stay hot
-      .velocityDecay(this.frameRate > 100 ? 0.11 : 0.099) // Friction
+      .velocityDecay(0.09) // Friction
+      // .velocityDecay(this.frameRate > 100 ? 0.11 : 0.09) // Friction
       .nodes(
         this.currentDemographic === "single circle" ? [this.data[0]] : this.data
       )
@@ -200,15 +337,12 @@ class D3Chart {
         "collide",
         d3
           .forceCollide()
-          .strength(0.1)
-          .radius((d) => this.radius)
+          .strength(1)
+          .radius((d) => this.radius * 0.5)
           .iterations(3)
       )
-      .force(
-        // create spacing
-        "charge",
-        d3.forceManyBody().strength(-200).theta(0).distanceMax(200)
-      )
+      .force("pickyStatistic", statisticForce)
+      .force("pickyPopulaiton", populationForce)
       .force(
         // position y-axis
         "y",
@@ -237,13 +371,17 @@ class D3Chart {
     this.currentDemographic = newchartDemographic;
 
     if (this.currentDemographic === "single circle") {
-      this.randomiseNodes();
-      this.createCircles();
-    } else {
-      this.createCircles();
+      // this.randomiseNodes();
     }
 
-    this.render();
+    if (this.currentDemographic === "start") {
+      this.randomiseNodes();
+      this.titleMain.classList.remove("make_visible", "transform_center");
+    } else {
+      this.handleTitles();
+      this.createCircles();
+      this.render();
+    }
   }
 
   render() {
@@ -262,6 +400,13 @@ class D3Chart {
         this.currentDemographic === "single circle" ? [this.data[0]] : this.data
       )
       .restart();
+
+    this.handleSubCategories();
+  }
+
+  pause() {
+    // this.svg.selectAll("circle").remove();
+    this.simulation.stop();
   }
 }
 
@@ -270,7 +415,7 @@ function createInteractive() {
     .then((rawData) => {
       let circleNum = 100;
       let data = Array.from({ length: circleNum }, () => ({}));
-      let allKeys = [];
+      let allKeys = {};
 
       rawData.forEach((statistic) => {
         let keys = Object.keys(statistic);
@@ -280,135 +425,254 @@ function createInteractive() {
           let shuffledIndexes = d3.shuffle([...Array(circleNum).keys()]);
 
           if (Math.round(statistic[demographic]) > 0) {
-            let newKey = `${statistic.type} ${
-              demographic.split(" proportion")[0]
-            }`;
+            let statisticKey = statistic.type;
+
+            let populationKey = statistic.population;
 
             data = data.map((row, index) => {
               row.id = index;
-              row[newKey] = 0;
+              row[statisticKey] = 0;
               row["empty set"] = 0;
               row["single circle"] = index === 0 ? 1 : 0;
 
               return row;
             });
 
-            shuffledIndexes
-              .slice(0, Math.round(statistic[demographic]))
-              .forEach((index) => {
-                data[index][newKey] = 1;
-              });
+            if (statisticKey === "Overweight or obese") {
+              // Non randomised circles
+              for (
+                let ind = 0;
+                ind < Math.round(statistic[demographic]);
+                ind++
+              ) {
+                data[ind][statisticKey] = 1;
+              }
+            } else {
+              // Randomise circles
+              shuffledIndexes
+                .slice(0, Math.round(statistic[demographic]))
+                .forEach((index) => {
+                  data[index][statisticKey] = 1;
+                });
+            }
 
-            allKeys.push(newKey);
+            allKeys[statisticKey] = populationKey;
           }
         }
+
+        allKeys["empty set"] = "Australia";
+        allKeys["single circle"] = null;
       });
 
-      allKeys.push("empty set", "single circle");
+      let chartDemographic = "single circle";
 
-      function estimateRefreshRate(callback) {
-        let start, end;
-        let frameCount = 0;
-        const samples = 10; // Number of frames to sample for the estimation
+      const chart = new D3Chart(
+        ".chart_wrapper",
+        data,
+        chartDemographic,
+        allKeys,
+        60, // Set interval based on refresh rate,
+        599
+      );
 
-        function step(timestamp) {
-          if (start === undefined) {
-            start = timestamp;
-          }
-          end = timestamp;
-          frameCount++;
+      const resizeObserver = new ResizeObserver((entries) => {
+        chart.render();
+      });
 
-          if (frameCount < samples) {
-            requestAnimationFrame(step);
-          } else {
-            const duration = end - start;
-            const estimatedRefreshRate = (frameCount / duration) * 1000;
-            callback(estimatedRefreshRate);
-          }
-        }
+      resizeObserver.observe(document.querySelector(".chart_wrapper"));
 
-        requestAnimationFrame(step);
-      }
+      const chartElement = document.querySelector(".circle_chart");
 
-      estimateRefreshRate((estimatedRefreshRate) => {
-        let chartDemographic = "single circle";
-
-        const chart = new D3Chart(
-          ".chart_wrapper",
-          data,
-          chartDemographic,
-          allKeys,
-          estimatedRefreshRate, // Set interval based on refresh rate,
-          599
-        );
-
-        const resizeObserver = new ResizeObserver((entries) => {
-          chart.render();
-        });
-
-        resizeObserver.observe(document.querySelector(".chart_wrapper"));
-
-        const title1 = document.querySelector(".title_one");
-        const title2 = document.querySelector(".title_two");
-        const chartElement = document.querySelector(".circle_chart");
-
-        gsap.utils.toArray(".interactive1 .chapter").forEach((step, index) => {
+      gsap.utils
+        .toArray(".interactive1 .chapter")
+        .forEach((step, index, arr) => {
           ScrollTrigger.create({
             trigger: step,
-            start: "top 80%",
+            start: `top ${index < 1 ? "65%" : "80%"}`,
             onToggle: (self) => {
               if (index === 0 && self.direction < 0) {
+                chart.update("start");
                 chartElement.classList.remove("make_visible");
               }
 
               if (self.isActive) {
-                if (index === 0) {
-                  chart.update("single circle");
-                  chartElement.classList.add("make_visible");
-                  title1.classList.remove("make_visible", "transform_center");
-                  title2.classList.remove("make_visible", "transform_center");
-                } else if (index === 1) {
-                  chart.update("empty set");
-                  chartElement.classList.add("make_visible");
-                  title1.classList.add(
-                    "make_visible",
-                    "transform_center",
-                    "label_center"
-                  );
-                  title1.classList.remove("label_left");
-                  title2.classList.remove("make_visible", "transform_center");
-                } else {
-                  chartElement.classList.add("make_visible");
-                  title1.classList.remove("label_center");
-                  title1.classList.add(
-                    "make_visible",
-                    "transform_center",
-                    "label_left"
-                  );
-                  title2.classList.add(
-                    "make_visible",
-                    "transform_center",
-                    "label_right"
-                  );
-                  title2.innerHTML = allKeys[index];
-                  chart.update(allKeys[index]);
-                }
+                chart.update(step.dataset.stat);
+              }
+            },
+            onLeave: () => {
+              if (index === arr.length - 1) {
+                chart.pause();
               }
             },
           });
         });
-      });
     })
     .catch((error) => console.log(error));
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Lazy load videos
-  new LazyLoad({
-    threshold: 800,
+function createTitle() {
+  function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  const parent = d3.select(".title_media");
+  let width = parent.node().getBoundingClientRect().width;
+  let height = parent.node().getBoundingClientRect().height;
+
+  const svg = d3
+    .select("#title_animation")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("viewBox", `0 0 ${width} ${height}`);
+
+  let nodes, circles, simulation, randomCircle;
+
+  function clip() {
+    let clipPath = d3.selectAll(".aus_clip");
+    let ausOutline = d3.selectAll(".aus_outline");
+
+    if (width > 599) {
+      let scale = 0.4;
+      ausOutline.attr("opacity", 1);
+
+      clipPath.attr("transform", `scale(${scale})`);
+      ausOutline.attr("transform", `scale(${scale})`);
+
+      let bbox = ausOutline.node().getBoundingClientRect();
+
+      let translateX = (width - bbox.width) / 2;
+      let translateY = (height - bbox.height) / 1.7;
+
+      clipPath.attr(
+        "transform",
+        `translate(${translateX},${translateY}) scale(${scale})`
+      );
+      ausOutline.attr(
+        "transform",
+        `translate(${translateX},${translateY}) scale(${scale})`
+      );
+    } else {
+      ausOutline.attr("opacity", 0);
+    }
+  }
+
+  function build() {
+    clip();
+    svg.select(".title_circle_group").remove();
+
+    nodes = Array.from({ length: 250 }, (_, index) => {
+      return {
+        id: index,
+        x: randomIntFromInterval(width * -2, width * 2) + width / 2, // Random value between -width * 2 and +width * 2
+        y: randomIntFromInterval(height * -2, height * 2) + height / 2, // Random value between -height * 2 and +height * 2
+        radius: width > 599 ? 18 : 13,
+      };
+    });
+
+    randomCircle = Math.floor(Math.random() * 200);
+
+    circles = svg
+      .append("g")
+      .classed("title_circle_group", true)
+      .attr("clip-path", width > 599 ? "url(#ausCutout)" : "")
+      .selectAll("circle")
+      .data(nodes)
+      .join(
+        (enter) =>
+          enter
+            .append("circle")
+            .classed("title_circle", true)
+            .attr("fill", (_, i) =>
+              i === randomCircle ? "#d8352a" : "#62626a"
+            )
+            .attr("r", 0)
+            .call((enter) =>
+              enter
+                .transition()
+                .duration(500)
+                .attr("r", (d) => d.radius)
+            ),
+        (update) => update,
+        (exit) => exit.remove()
+      );
+
+    simulation = d3
+      .forceSimulation()
+      .alphaDecay(0.1)
+      .alphaTarget(0.1)
+      .velocityDecay(0.9)
+      .nodes(nodes)
+      .force(
+        // prevent overlap
+        "collide",
+        d3
+          .forceCollide()
+          .strength(1)
+          .radius((d) => d.radius * 0.5)
+          .iterations(3)
+      )
+      .force(
+        "forceCharge",
+        d3.forceManyBody().strength(width > 599 ? -500 : -400)
+      )
+      .force(
+        // position y-axis
+        "y",
+        d3
+          .forceY()
+          .strength(0.6)
+          .y(window.innerHeight / 2)
+      )
+      .force(
+        // position x-axis
+        "x",
+        d3
+          .forceX()
+          .strength(0.6)
+          .x(window.innerWidth / 2)
+      )
+      .on("tick", () => {
+        circles.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+      });
+  }
+
+  build();
+
+  const resizeObserver = new ResizeObserver((entries) => {
+    width = parent.node().getBoundingClientRect().width;
+    height = parent.node().getBoundingClientRect().height;
+
+    svg
+      .attr("width", width)
+      .attr("height", height)
+      .attr("viewBox", `0 0 ${width} ${height}`);
+
+    circles.attr("clip-path", width > 599 ? "url(#ausCutout)" : "");
+    clip();
+
+    simulation.force("y").y(window.innerHeight / 2);
+    simulation.force("x").x(window.innerWidth / 2);
   });
 
+  resizeObserver.observe(document.querySelector(".title_media"));
+
+  ScrollTrigger.create({
+    trigger: ".title_section",
+    start: "bottom top",
+    onLeaveBack: () => {
+      build();
+    },
+    onLeave: () => {
+      svg.selectAll(".title_circle_group").remove();
+      simulation.stop();
+    },
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
   createInteractive();
+
+  createTitle();
 
   // createScrollFades();
 

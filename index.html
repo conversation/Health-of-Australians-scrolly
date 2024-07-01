@@ -121,94 +121,347 @@
       <section class="block_content title_section">
         <div class="title_wrapper">
           <div class="title_container">
-            <h1 class="title">Australia's health, visualised</h1>
-            <h2 class="standfirst">
-              Visualising the Australian Institute of Health and Welfare report
-              on the
-              <a
-                href="https://www.aihw.gov.au/reports-data/australias-health"
-                target="_blank"
-                >health of Australians</a
-              >
-            </h2>
-            <p class="author"></p>
+            <h1 class="title">Australia's health,<br />visualised</h1>
+          </div>
+          <div class="title_media">
+            <svg id="title_animation">
+              <defs>
+                <clipPath id="ausCutout">
+                  <path
+                    class="aus_clip"
+                    d="M1480.9,1706.29c-10.5,0-20.72-3.3-30.33-9.88-26.45-25.63-34.92-61.41-43.13-96-2.1-8.82-4.16-17.53-6.48-25.89-5.97-24.67-9.99-45.67.62-54.76l1.03-.86c9.57-6.82,25.07-4.1,43.07-.94,16.14,2.83,34.43,6.04,46.14,1.45,15.05-3.59,27.77-13.49,37.99-21.45,11.66-9.08,20.88-16.24,29.64-11.75l1.79,1.41c8.88,10.27,8.04,22.64,7.15,35.73-.34,4.89-.7,10.17-.62,15.87-.41,6.43-.76,12.56-1.14,18.77-1.03,17.67-2.1,35.94-4.12,52.61-1.17,34.58-25.59,73.93-55.55,89.06-8.74,4.42-17.5,6.62-26.06,6.62Z"
+                  />
+                  <path
+                    class="aus_clip"
+                    d="M1454.67,1427.18c-10.37,0-20.86-1.05-31.49-3.37-11.72-1.59-23.16-2.94-34-4.22-68.75-8.12-114.18-13.48-169.46-79.67-7.43-7.87-14.84-16.44-22.2-24.97-5.6-6.49-11.18-12.95-16.84-19.17-12.34-13.94-25.43-22.82-38.1-31.41-18.97-12.86-36.89-25.01-46.31-51.02-3.74-6.55-5.2-17.27-6.74-28.63-1.87-13.75-4-29.34-11.06-33.7-2.86-1.77-6.87-1.78-12.18-.05-62.99,38.19-92.1,11.17-132.34-26.15-9.04-8.38-18.39-17.05-29.03-25.89-31.28-28.67-75.62-46.59-135.81-54.98-40.75-8.19-76.99,8.45-115.35,26.09-7.8,3.59-15.69,7.22-23.74,10.71-19.72,8.06-40.58,17.78-62.67,28.08-49.55,23.1-100.79,46.99-143.45,53.92-11.85,1.92-24.59,3.48-37.79,5.1-31.97,3.91-65.04,7.96-95.44,18.06-10.28,3.04-20.55,6.89-30.5,10.62-24.11,9.04-49.03,18.48-75.83,17.34-42.19-1.62-76.59-24.44-89.8-59.56-7.95-19.63-5.34-37.71-2.82-55.2,1.82-12.59,3.68-25.6,1.68-39.57-5.37-30.22-14.52-61.38-24.22-94.37-5.16-17.58-10.5-35.75-15.19-53.73l-36.15-128.23c-10.44-36.93-18.69-66.1-7.45-102.93,6.06-23.46,14.11-47.78,21.9-71.3l2.29-6.91c8.23-24.4,18.46-54.72,41.6-70.59,46.2-24.47,100.78-45.94,153.57-66.7,31.91-12.55,64.91-25.53,94.57-38.62,44.2-14.73,73.14-49.7,103.76-86.73,9.56-11.55,19.44-23.5,29.82-34.81,11.81-13.79,24.96-29.02,37.78-43.86l29.74-34.51c3.08-3.43,5.91-6.66,8.61-9.76,21.88-24.99,37.63-43.04,75.05-38.91,14.07,1.52,29.23,5.74,43.88,9.81,16.11,4.49,32.79,9.12,47.91,10.14,13.45.84,23.51-2.52,31.08-10.11,12.03-11.42,21.66-36.16,30.96-60.09,7.51-19.29,14.59-37.52,23.22-50.37,16.18-29.06,50.03-30.7,81.07-28.41l10.92.69c33.05,2.06,74.18,4.63,103.01,7.18,22.65.67,37.26,6.21,44.33,16.93,10.72,16.24,1.63,39.43-8,63.98-9.29,23.67-18.89,48.14-9.91,64.52,6.19,10.16,18.72,16.95,30.83,23.52l4.85,2.64c19.78,9.39,41,20.47,63.47,32.21,40.82,21.32,83.03,43.36,117.89,55.52,12.43,1.26,16.13-10.27,20.33-37.98,1.15-7.6,2.34-15.45,4.21-22.26l35.23-197.96c6.63-36.9,9.07-48.72,16.18-51.84,2.57-1.14,5.41-.86,7.83.69l1.17.74,1.18,1.47c11.67,18.87,20.44,44.81,28.91,69.9,7.65,22.68,15.57,46.12,25.53,64.18,10.82,21.92,24.33,37.06,38.61,53.09,12.45,13.95,25.31,28.38,36.62,47.7,14.55,24.55,23.79,52.1,32.71,78.74,13.22,39.46,25.7,76.73,54.07,105.5,22.23,25.2,59.11,66.7,97.11,109.47l64.5,72.62c10.24,12.77,20.45,23.58,30.33,34.03,26.16,27.69,48.75,51.6,55.17,93.23,3.87,23.91,6.41,49.21,8.86,73.69.99,9.74,1.96,19.42,3,28.95l.56,5.68c3.56,35.65,6.63,66.43-5.47,99.78-15.35,46.32-41.4,121.63-66.6,194.46-19.26,55.7-38.17,110.35-51.77,150.54l-1.5,4.38c-12.15,35.42-18.26,53.2-45.23,70.81l-6.22,3.66c-46.96,27.54-99.22,58.18-155.23,58.18Z"
+                  />
+                </clipPath>
+              </defs>
+              <g class="aus_outline">
+                <path
+                  d="M1480.9,1706.29c-10.5,0-20.72-3.3-30.33-9.88-26.45-25.63-34.92-61.41-43.13-96-2.1-8.82-4.16-17.53-6.48-25.89-5.97-24.67-9.99-45.67.62-54.76l1.03-.86c9.57-6.82,25.07-4.1,43.07-.94,16.14,2.83,34.43,6.04,46.14,1.45,15.05-3.59,27.77-13.49,37.99-21.45,11.66-9.08,20.88-16.24,29.64-11.75l1.79,1.41c8.88,10.27,8.04,22.64,7.15,35.73-.34,4.89-.7,10.17-.62,15.87-.41,6.43-.76,12.56-1.14,18.77-1.03,17.67-2.1,35.94-4.12,52.61-1.17,34.58-25.59,73.93-55.55,89.06-8.74,4.42-17.5,6.62-26.06,6.62Z"
+                />
+                <path
+                  d="M1454.67,1427.18c-10.37,0-20.86-1.05-31.49-3.37-11.72-1.59-23.16-2.94-34-4.22-68.75-8.12-114.18-13.48-169.46-79.67-7.43-7.87-14.84-16.44-22.2-24.97-5.6-6.49-11.18-12.95-16.84-19.17-12.34-13.94-25.43-22.82-38.1-31.41-18.97-12.86-36.89-25.01-46.31-51.02-3.74-6.55-5.2-17.27-6.74-28.63-1.87-13.75-4-29.34-11.06-33.7-2.86-1.77-6.87-1.78-12.18-.05-62.99,38.19-92.1,11.17-132.34-26.15-9.04-8.38-18.39-17.05-29.03-25.89-31.28-28.67-75.62-46.59-135.81-54.98-40.75-8.19-76.99,8.45-115.35,26.09-7.8,3.59-15.69,7.22-23.74,10.71-19.72,8.06-40.58,17.78-62.67,28.08-49.55,23.1-100.79,46.99-143.45,53.92-11.85,1.92-24.59,3.48-37.79,5.1-31.97,3.91-65.04,7.96-95.44,18.06-10.28,3.04-20.55,6.89-30.5,10.62-24.11,9.04-49.03,18.48-75.83,17.34-42.19-1.62-76.59-24.44-89.8-59.56-7.95-19.63-5.34-37.71-2.82-55.2,1.82-12.59,3.68-25.6,1.68-39.57-5.37-30.22-14.52-61.38-24.22-94.37-5.16-17.58-10.5-35.75-15.19-53.73l-36.15-128.23c-10.44-36.93-18.69-66.1-7.45-102.93,6.06-23.46,14.11-47.78,21.9-71.3l2.29-6.91c8.23-24.4,18.46-54.72,41.6-70.59,46.2-24.47,100.78-45.94,153.57-66.7,31.91-12.55,64.91-25.53,94.57-38.62,44.2-14.73,73.14-49.7,103.76-86.73,9.56-11.55,19.44-23.5,29.82-34.81,11.81-13.79,24.96-29.02,37.78-43.86l29.74-34.51c3.08-3.43,5.91-6.66,8.61-9.76,21.88-24.99,37.63-43.04,75.05-38.91,14.07,1.52,29.23,5.74,43.88,9.81,16.11,4.49,32.79,9.12,47.91,10.14,13.45.84,23.51-2.52,31.08-10.11,12.03-11.42,21.66-36.16,30.96-60.09,7.51-19.29,14.59-37.52,23.22-50.37,16.18-29.06,50.03-30.7,81.07-28.41l10.92.69c33.05,2.06,74.18,4.63,103.01,7.18,22.65.67,37.26,6.21,44.33,16.93,10.72,16.24,1.63,39.43-8,63.98-9.29,23.67-18.89,48.14-9.91,64.52,6.19,10.16,18.72,16.95,30.83,23.52l4.85,2.64c19.78,9.39,41,20.47,63.47,32.21,40.82,21.32,83.03,43.36,117.89,55.52,12.43,1.26,16.13-10.27,20.33-37.98,1.15-7.6,2.34-15.45,4.21-22.26l35.23-197.96c6.63-36.9,9.07-48.72,16.18-51.84,2.57-1.14,5.41-.86,7.83.69l1.17.74,1.18,1.47c11.67,18.87,20.44,44.81,28.91,69.9,7.65,22.68,15.57,46.12,25.53,64.18,10.82,21.92,24.33,37.06,38.61,53.09,12.45,13.95,25.31,28.38,36.62,47.7,14.55,24.55,23.79,52.1,32.71,78.74,13.22,39.46,25.7,76.73,54.07,105.5,22.23,25.2,59.11,66.7,97.11,109.47l64.5,72.62c10.24,12.77,20.45,23.58,30.33,34.03,26.16,27.69,48.75,51.6,55.17,93.23,3.87,23.91,6.41,49.21,8.86,73.69.99,9.74,1.96,19.42,3,28.95l.56,5.68c3.56,35.65,6.63,66.43-5.47,99.78-15.35,46.32-41.4,121.63-66.6,194.46-19.26,55.7-38.17,110.35-51.77,150.54l-1.5,4.38c-12.15,35.42-18.26,53.2-45.23,70.81l-6.22,3.66c-46.96,27.54-99.22,58.18-155.23,58.18Z"
+                />
+              </g>
+            </svg>
           </div>
         </div>
       </section>
 
       <section class="block_content">
-        <p class="basic_margin">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
-          repellat possimus rem, laudantium nihil cumque dolor quia error a?
-          Minima quis sint ducimus, voluptatem aperiam, totam quam perspiciatis
-          dolores repellendus veritatis ea sunt eum a soluta quisquam ad? Magnam
-          earum, vel veritatis voluptatum quidem expedita ex ducimus fugiat
-          omnis doloremque!
+        <p class="title_authors">
+          By
+          <a
+            class="body_link"
+            href="https://theconversation.com/profiles/adrian-esterman-1022994"
+            target="_blank"
+            >Adrian Esterman</a
+          >
+          and The Conversation
         </p>
         <p class="basic_margin">
-          Excepturi quod nam vero! Dolorum fuga facilis nisi reprehenderit
-          numquam quis, aliquid molestiae modi delectus iste cumque reiciendis?
-          Quos, nulla reprehenderit velit labore provident mollitia ipsam
-          officia odit sapiente omnis dolorem. Sequi, eius error ut aspernatur
-          quas magni nihil temporibus placeat consequuntur iure reprehenderit?
-          Neque doloribus repudiandae molestias quisquam a?
+          The health of a nation is a tricky thing to measure. People have
+          <a
+            class="body_link"
+            href="https://www.healthpolicypartnership.com/what-is-health-the-search-for-an-accurate-definition/"
+            target="_blank"
+            >ups and downs</a
+          >
+          and one person's poor health is another's good health. However, there
+          are some indicators of health that are universal – a long life free of
+          disease, a perceived sense of wellness, minimal injury or a quick
+          recovery.
         </p>
         <p class="basic_margin">
-          Mollitia, voluptates molestias velit, iusto fuga error labore illo
-          repudiandae maxime saepe, voluptatum est porro. Quod sapiente rem
-          veniam debitis dolorem. Veniam nostrum eos officia, exercitationem
-          consequatur beatae molestiae consectetur odit numquam optio alias
-          delectus sunt, deserunt incidunt recusandae cupiditate necessitatibus,
-          voluptatum tempora corporis maiores ea odio excepturi explicabo
-          laborum!
+          The latest biennial report from the Australian Institute of Health and
+          Welfare on the overall health of Australians seeks to measure these
+          vital indicators.
         </p>
+        <p class="basic_margin">
+          In its
+          <a
+            class="body_link"
+            href="https://www.aihw.gov.au/reports-data/australias-health"
+            target="_blank"
+            >2022 report</a
+          >
+          the AIHW pointed out that "Health can mean different things to
+          different people but is widely accepted to be much more than the
+          presence or absence of disease." This definition acknowledges the
+          unique experience of each Australia, and how we handle and adapt to
+          these situations greatly shapes our health.
+        </p>
+        <h2 class="sub_head" style="text-align: center">
+          <b>So, just how healthy are we?</b>
+        </h2>
       </section>
 
       <section class="pinned_section pin_block basic_margin interactive1">
         <div class="pinned_background">
           <div class="chart_wrapper">
             <p class="circle_label title_one">Australia</p>
-            <p class="circle_label title_two">Test</p>
+            <p class="circle_label title_two"></p>
           </div>
         </div>
-        <div class="pinned_foreground">
-          <p class="chapter pinned_foreground_content" data-stat="">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur
-            excepturi ea sit tenetur, magni praesentium culpa suscipit?
-            Molestias illum officia, veritatis quidem hic suscipit omnis?
+        <div class="pinned_foreground block_content">
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="empty set"
+          >
+            To help make sense of the numbers, we've shrunk Australia's
+            population down to 100 people.
           </p>
-          <p class="chapter pinned_foreground_content" data-stat="">
-            Voluptate, voluptatibus distinctio? Vitae consequatur excepturi
-            dicta obcaecati harum cumque reprehenderit laborum unde esse,
-            eligendi perferendis, itaque doloremque animi quae tempora quidem
-            quas tenetur adipisci.
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="single circle"
+          >
+            Each circle is a person in the imaginary 100 Australians. They
+            aren't a real person, but a statistic. Essentially, it represents 1%
+            of the population.
           </p>
-          <p class="chapter pinned_foreground_content" data-stat="">
-            Perferendis, corrupti dignissimos explicabo voluptatibus cum
-            obcaecati. Enim non aut nam reiciendis similique explicabo placeat
-            praesentium excepturi quisquam voluptatum, debitis voluptatibus eum
-            illo vero dolor!
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="empty set"
+          >
+            Let's go back to Australia. Now we can look at the key areas of
+            Australian's health to visualise where we are doing great and where
+            we can improve.
           </p>
-          <p class="chapter pinned_foreground_content" data-stat="">
-            Cum eum laboriosam in quod odit sed incidunt sequi impedit modi,
-            numquam, ipsum dolore quas! Repudiandae quo minima dolores eligendi.
-            Nemo odit error modi nesciunt.
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Health percieved as 'good/very good'"
+          >
+            In 2022, 85% of Australians aged 15 and over reported their health
+            as good or very good.
           </p>
-          <p class="chapter pinned_foreground_content" data-stat="">
-            Ipsum obcaecati nulla accusamus dolore officia asperiores vel
-            repellendus fuga at architecto illum ab veritatis minus expedita
-            culpa autem non, aperiam placeat ducimus! Placeat, blanditiis.
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="At least one long-term health condition"
+          >
+            However, while nearly 9 out of 10 Australians perceive their health
+            as good, 61% of people were living with a chronic condition, and
+            <span style="background-color: #6d76c5; padding-inline: 4px"
+              >38% with two or more chronic conditions</span
+            >.
           </p>
-          <p class="chapter pinned_foreground_content" data-stat="">
-            Ad nam enim veritatis ex quia totam nisi? Ea natus sed reiciendis
-            placeat veniam magni, vitae, quas totam labore ad, minus sunt quis
-            aut fugit?
+
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="At least one long-term health condition"
+          >
+            The 5 most common were...
           </p>
-          <p class="chapter pinned_foreground_content" data-stat="">
-            Obcaecati excepturi minima delectus exercitationem laboriosam error!
-            Nemo maxime dicta repudiandae impedit earum, deleniti fuga quae
-            illum ut, aperiam dolore voluptates modi atque harum suscipit.
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Deafness or hearing loss"
+          >
+            deafness or hearing loss (2.4 million people, 9.6%),
           </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Asthma"
+          >
+            asthma (2.8 million people, 10.8%),
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Depression"
+          >
+            depression (3.2 million people, 12.4%),
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Back problems"
+          >
+            back problems (4.0 million people, 15.7%),
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Anxiety"
+          >
+            and anxiety (4.8 million people, 18.9%).
+          </p>
+
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="At least one childhood chronic condition"
+          >
+            In 2022, about 45% of children aged 0-14 had at least one chronic
+            condition. The most common was
+            <span style="background-color: #6d76c5; padding-inline: 4px"
+              >hay fever and allergic rhinitis (13%)</span
+            >, followed by
+            <span style="background-color: #29a37a; padding-inline: 4px"
+              >asthma (8.2%)</span
+            >.
+          </p>
+
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Mental disorder"
+          >
+            In 2020–2022, an estimated 8.5 million Australians aged 16–85 had
+            experienced a mental disorder at some time in their life (43% of the
+            population).
+          </p>
+
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Mental disorder among females in the last 12 months (2020-2022)"
+          >
+            The rate of mental illness among females aged 16–24 was 46%, the
+            highest among females and higher than among males of any age group.
+          </p>
+
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="empty set"
+          >
+            What about the things that make us sick or healthy?
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="empty set"
+          >
+            One way to understand the impact of diseases and injuries on a
+            population is to assess the burden of disease, or the years of
+            healthy life lost due to ill health. <br /><br />In 2018, over
+            one-third of disease burden was potentially preventable – that is,
+            it could have been prevented had Australians reduced or avoided
+            exposure to certain risk factors.
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="empty set"
+          >
+            The risk factor that causes the most burden of disease is tobacco
+            usage (8.6% of total burden).
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Young people vaping daily"
+          >
+            Although rates of tobacco smoking continue to decline, this has been
+            offset by the number of people 14 and over vaping, which has now
+            risen to 3.5%. Alarmingly, almost 1 in 10 young people use vapes
+            every day (9.3%).
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Young people vaping daily"
+          >
+            The Federal government has just
+            <a
+              href="https://www.abc.net.au/news/2024-06-25/what-you-need-to-know-about-australia-move-to-ban-vape/104016192"
+              target="_blank"
+              >introduced</a
+            >
+            restrictions on vaping products making them only available from
+            pharmacies, and with plain packaging. This should help control what
+            has quickly become a major public health concern.
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Overweight or obese"
+          >
+            The next risk factor causing the most burden of disease is
+            overweight and obesity. In 2022, 65% of adults were overweight or
+            obese. This is drop from the previous report, which found 67% were
+            overweight or obese in 2017, so we are doing something right!<br /><br />
+            And of that 65%,
+            <span style="background-color: #6d76c5; padding-inline: 4px"
+              >34% are living with overweight</span
+            >, and
+            <span style="background-color: #29a37a; padding-inline: 4px">
+              32% with obesity</span
+            >.
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Overweight or obese"
+          >
+            Interestingly, 75% of males were overweight compared to 60% of
+            females.
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Childhood obestity 2022"
+          >
+            The percentage of 5-17 year olds who were overweight or obese
+            increased from
+            <span style="background-color: #6d76c5; padding-inline: 4px"
+              >25% in 2017-18</span
+            >
+            to 28% in 2022.
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Less than 150 minutes of physical activity"
+          >
+            Regular physical activity is important, yet 37% of people aged 18-64
+            did not reach the minimal recommendation of 150 minutes of physical
+            activity a week. For those aged over 65, 50% were insufficiently
+            active - that is, 30 minutes of physical activity per day over 5
+            days.
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Less than 150 minutes of physical activity"
+          >
+            However, since the last report all ages have become more physically
+            active and there are more people meeting the minimal recommendation
+            – go us!
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Consume harmful amount of alcohol"
+          >
+            In more good news, our risky alcohol usage (10 or more standard
+            drinks a week) has declined. 31% of people over 14 year consume
+            harmful amount of alcohol, down from 39% in 2004.
+            <br /><br />Alcohol is the fifth largest risk factor to the burden
+            of disease, so any movement there is good news.
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="empty set"
+          >
+            However, there are also external factors that impact our health. The
+            environment, socioeconomic situation and family violence all play a
+            role.
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Experience physical and/or sexual violence since the age of 15"
+          >
+            In 2021-22 about 8 million Australians, or 41% of the population,
+            have experienced some form of physical and/or sexual violence since
+            the age of 15. Of that, 3.8 million Australians (20%)
+            <span style="background-color: #6d76c5; padding-inline: 4px"
+              >experienced sexual and/or physical violence in a family or
+              domestic setting</span
+            >.
+          </p>
+          <p
+            class="chapter pinned_foreground_content pinned_left"
+            data-stat="Women who have experienced violence from a partner"
+          >
+            It is a health concern that disproportionately affects women. 1 in 6
+            women have experience physical and/or sexual violence by a current
+            or previous partner.
+          </p>
+          <div class="last_pin chapter" data-stat="empty set">
+            <p
+              class="pinned_foreground_content pinned_left"
+              data-stat="empty set"
+            >
+              Overall, while there have been improvements since the last report
+              there are still areas that have not improved, or have even become
+              worse (mental health).
+            </p>
+          </div>
         </div>
       </section>
 
@@ -247,88 +500,39 @@
       <div class="block_content author_list_wrapper">
         <h2>Authors</h2>
         <div class="author_bios_wrapper">
-          <!-- <div class="author_bio">
+          <div class="author_bio">
             <div class="author_profile">
               <img
                 class="author_img"
                 loading="lazy"
-                src="https://cdn.theconversation.com/avatars/1529038/width238/getimage_345eee4d-e639-4cfa-8991-492b0459f47a.jpg"
+                src="https://cdn.theconversation.com/avatars/1022994/width238/file-20200407-110267-1q06gg3.jpg"
                 alt=""
               />
               <p class="author_name">
                 <a
                   class="text_link"
-                  href="https://theconversation.com/profiles/ivan-franceschini-1529038"
+                  href="https://theconversation.com/profiles/adrian-esterman-1022994"
                   target="_blank"
-                  >Unknow</a
+                  >Adrian Esterman</a
                 >
               </p>
             </div>
 
             <p class="author_description">
-              Lecturer, Chinese Studies
+              Professor of Biostatistics and Epidemiology,
               <a
                 class="text_link"
-                href="https://theconversation.com/institutions/the-university-of-melbourne-722"
+                href="https://theconversation.com/institutions/university-of-south-australia-1180"
                 target="_blank"
-                >The University of Melbourne</a
-              >, focusing on Global China, labour rights, and transnational
-              organised crime.
+                >University of South Australia</a
+              >
             </p>
           </div>
-          <div class="author_bio">
-            <div class="author_profile">
-              <img
-                class="author_img"
-                loading="lazy"
-                src="https://cdn.theconversation.com/avatars/1509027/width238/image-20240207-26-m2wwov.jpg"
-                alt=""
-              />
-              <p class="author_name">
-                <a
-                  class="text_link"
-                  href="https://theconversation.com/profiles/ling-li-1529042"
-                  target="_blank"
-                  >Ling Li</a
-                >
-              </p>
-            </div>
-            <p class="author_description">
-              PhD candidate,
-              <a
-                class="text_link"
-                href="https://theconversation.com/institutions/ca-foscari-university-of-venice-4378"
-                target="_blank"
-                >Ca' Foscari University of Venice</a
-              >.
-            </p>
-          </div> -->
         </div>
       </div>
       <div class="block_content author_list_wrapper">
         <h2>Editorial production</h2>
         <div class="author_bios_wrapper">
-          <div class="author_bio">
-            <div class="author_profile">
-              <img
-                class="author_img"
-                loading="lazy"
-                src="https://cdn.theconversation.com/avatars/25/width238/image-20220425-13-r8f699.jpg"
-                alt=""
-              />
-              <p class="author_name">
-                <a
-                  class="text_link"
-                  href="https://theconversation.com/profiles/fron-jackson-webb-25"
-                  target="_blank"
-                  >Fron Jackson-Webb</a
-                >
-              </p>
-            </div>
-            <p class="author_description">
-              Deputy Editor and Senior Health Editor
-            </p>
-          </div>
           <div class="author_bio">
             <div class="author_profile">
               <img
@@ -342,13 +546,11 @@
                   class="text_link"
                   href="https://theconversation.com/profiles/phoebe-roth-509034"
                   target="_blank"
-                  >Deputy Health Editor
+                  >Phoebe Roth
                 </a>
               </p>
             </div>
-            <p class="author_description">
-              Deputy Editor and Senior Health Editor
-            </p>
+            <p class="author_description">Deputy Health Editor</p>
           </div>
           <div class="author_bio">
             <div class="author_profile">
@@ -374,9 +576,25 @@
       <div class="block_content disclosures_wrapper">
         <h2>Disclosure statement</h2>
         <p class="disclosure_statement">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet
-          doloribus debitis vitae aliquid! Dicta quis vitae mollitia qui
-          corrupti ipsa doloribus illo tenetur eaque asperiores.
+          Adrian Esterman receives funding from NHMRC, MRFF, and ARC.
+        </p>
+      </div>
+      <div class="block_content">
+        <h2>Attribution</h2>
+        <p class="disclosure_statement">
+          Title image of Australia from
+          <a
+            href="https://www.shutterstock.com/image-vector/australia-country-simplified-map-thin-black-2434253095"
+            target="_blank"
+            >Pyty/Shutterstock</a
+          >
+          <br />
+          Domestic violence figures from the
+          <a
+            href="https://www.abs.gov.au/statistics/people/crime-and-justice/personal-safety-australia/2021-22"
+            target="_blank"
+            >ABS Personal Safety Survey</a
+          >
         </p>
       </div>
     </aside>
