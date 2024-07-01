@@ -574,6 +574,7 @@ function createInteractive() {
         .toArray(".interactive1 .chapter")
         .forEach((step, index, arr) => {
           ScrollTrigger.create({
+            fastScrollEnd: true,
             trigger: step,
             start: `top 80%`,
             onToggle: (self) => {
