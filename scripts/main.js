@@ -1,40 +1,185 @@
 gsap.registerPlugin(ScrollTrigger);
 
-function createScrollFades() {
-  gsap.utils.toArray(".pinned_section").forEach((pinnedSection) => {
-    const bgArr = pinnedSection.querySelector(".pinned_media").children;
-
-    const parTriggersArr = pinnedSection.querySelectorAll(".step");
-
-    parTriggersArr.forEach((par, index) => {
-      ScrollTrigger.create({
-        fastScrollEnd: true,
-        trigger: par,
-        start: `top ${par.classList.contains("delay") ? "70" : "90"}%`,
-        onEnter: () => {
-          bgArr[par.dataset.imageIndex || index + 1].classList.add(
-            "make_visible"
-          );
-        },
-        onLeaveBack: () => {
-          bgArr[par.dataset.imageIndex || index + 1].classList.remove(
-            "make_visible"
-          );
-        },
-      });
-    });
-  });
-}
+const rawData = [
+  {
+    type: "Health perceived as 'good/very good'",
+    "total proportion": "85",
+    population: "Rest of Australia",
+  },
+  {
+    type: "At least one long-term health condition",
+    "total proportion": "61",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Two or more long-term health conditions",
+    "total proportion": "38",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Anxiety",
+    "total proportion": "18.9",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Back problems",
+    "total proportion": "15.7",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Depression",
+    "total proportion": "12.4",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Asthma",
+    "total proportion": "10.8",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Deafness or hearing loss",
+    "total proportion": "9.6",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Overweight or obese",
+    "total proportion": "66",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Mental disorder",
+    "total proportion": "43",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Mental disorder among females in the last 12 months (2020-2022)",
+    "total proportion": "46",
+    population: "All females 16-24",
+  },
+  {
+    type: "Mental disorder among females in the last 12 months (2007)",
+    "total proportion": "30",
+    population: "All females 16-24",
+  },
+  {
+    type: "Chronic musculoskeletal conditions",
+    "total proportion": "29",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Arthritis",
+    "total proportion": "15",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Osteoporosis",
+    "total proportion": "3.4",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Chronic kidney disease",
+    "total proportion": "11",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Kidney disease for over 75 year olds",
+    "total proportion": "44",
+    population: "All people over 75",
+  },
+  {
+    type: "Diabetes",
+    "total proportion": "5.1",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Chronic respirator conditions",
+    "total proportion": "34",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Long-term eye condition",
+    "total proportion": "56.7",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Male suicide deaths",
+    "total proportion": "76",
+    population: "All suicide deaths",
+  },
+  {
+    type: "Obestity 1995",
+    "total proportion": "56",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Obestity 2022",
+    "total proportion": "66",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Not meeting daily serves of fruit",
+    "total proportion": "56",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Childhood obestity 2017-18",
+    "total proportion": "25",
+    population: "5-17 year-olds",
+  },
+  {
+    type: "Childhood obestity 2022",
+    "total proportion": "28",
+    population: "5-17 year-olds",
+  },
+  {
+    type: "At least one childhood chronic condition",
+    "total proportion": "45",
+    population: "Children aged 0-14",
+  },
+  {
+    type: "Less than 150 minutes of physical activity",
+    "total proportion": "37",
+    population: "18-64 year olds",
+  },
+  {
+    type: "Consume harmful amount of alcohol",
+    "total proportion": "31",
+    population: "Australians 14 years and older",
+  },
+  {
+    type: "Young people vaping daily",
+    "total proportion": "9.3",
+    population: "18-24 year olds",
+  },
+  {
+    type: "Experienced FDV since the age of 15",
+    "total proportion": "20",
+    population: "Rest of Australia",
+  },
+  {
+    type: "Hospitalisations for DV",
+    "total proportion": "32",
+    population: "Hospitalisations from assault",
+  },
+  {
+    type: "Women who have experienced violence from a partner",
+    "total proportion": "17",
+    population: "Women",
+  },
+  {
+    type: "Experience physical and/or sexual violence since the age of 15",
+    "total proportion": "41",
+    population: "Rest of Australia",
+  },
+  {
+    type: "First Nations",
+    "total proportion": "50",
+    population: "Non-Indigenous Australians",
+  },
+];
 
 class D3Chart {
-  constructor(
-    selector,
-    data,
-    currentDemographic,
-    allDemographics,
-    frameRate,
-    breakPoint
-  ) {
+  constructor(selector, data, currentDemographic, allDemographics, breakPoint) {
     this.data = data;
     this.currentDemographic = currentDemographic;
     this.allDemographics = allDemographics;
@@ -54,7 +199,6 @@ class D3Chart {
     this.stroke = 4;
     this.radius = 10 - this.stroke / 2;
     this.circles;
-    this.frameRate = frameRate;
     this.statisticForce;
     this.populationForce;
     this.simulation;
@@ -391,10 +535,8 @@ class D3Chart {
 
     this.simulation = d3
       .forceSimulation()
-      // .alphaDecay(0.01) // Default is 0.0228, lower it to slow the cooling down
       .alphaTarget(0.005) // Stay hot
       .velocityDecay(0.09) // Friction
-      // .velocityDecay(this.frameRate > 100 ? 0.11 : 0.09) // Friction
       .nodes(
         this.currentDemographic === "single circle" ? [this.data[0]] : this.data
       )
@@ -473,116 +615,100 @@ class D3Chart {
 }
 
 function createInteractive() {
-  d3.csv("../assets/data.csv")
-    .then((rawData) => {
-      let circleNum = 100;
-      let data = Array.from({ length: circleNum }, () => ({}));
-      let allKeys = {};
+  let circleNum = 100;
+  let data = Array.from({ length: circleNum }, () => ({}));
+  let allKeys = {};
 
-      rawData.forEach((statistic) => {
-        let keys = Object.keys(statistic);
+  rawData.forEach((statistic) => {
+    let keys = Object.keys(statistic);
 
-        for (let i = 1; i < keys.length; i++) {
-          let demographic = keys[i];
-          let shuffledIndexes = d3.shuffle([...Array(circleNum).keys()]);
+    for (let i = 1; i < keys.length; i++) {
+      let demographic = keys[i];
+      let shuffledIndexes = d3.shuffle([...Array(circleNum).keys()]);
 
-          if (Math.round(statistic[demographic]) > 0) {
-            let statisticKey = statistic.type;
+      if (Math.round(statistic[demographic]) > 0) {
+        let statisticKey = statistic.type;
 
-            let populationKey = statistic.population;
+        let populationKey = statistic.population;
 
-            data = data.map((row, index) => {
-              row.id = index;
-              row[statisticKey] = 0;
-              row["empty set"] = 0;
-              row["empty set FN"] = 0;
-              row["single circle"] = index === 0 ? 1 : 0;
+        data = data.map((row, index) => {
+          row.id = index;
+          row[statisticKey] = 0;
+          row["empty set"] = 0;
+          row["empty set FN"] = 0;
+          row["single circle"] = index === 0 ? 1 : 0;
 
-              return row;
-            });
+          return row;
+        });
 
-            if (
-              [
-                "Overweight or obese",
-                "Anxiety",
-                "Back problems",
-                "Depression",
-                "Asthma",
-                "Deafness or hearing loss",
-                "Mental disorder among females in the last 12 months (2007)",
-                "Mental disorder among females in the last 12 months (2020-2022)",
-              ].includes(statisticKey)
-            ) {
-              // Non randomised circles
-              for (
-                let ind = 0;
-                ind < Math.round(statistic[demographic]);
-                ind++
-              ) {
-                data[ind][statisticKey] = 1;
-              }
-            } else {
-              // Randomise circles
-              shuffledIndexes
-                .slice(0, Math.round(statistic[demographic]))
-                .forEach((index) => {
-                  data[index][statisticKey] = 1;
-                });
-            }
-
-            allKeys[statisticKey] = populationKey;
+        if (
+          [
+            "Overweight or obese",
+            "Anxiety",
+            "Back problems",
+            "Depression",
+            "Asthma",
+            "Deafness or hearing loss",
+            "Mental disorder among females in the last 12 months (2007)",
+            "Mental disorder among females in the last 12 months (2020-2022)",
+          ].includes(statisticKey)
+        ) {
+          // Non randomised circles
+          for (let ind = 0; ind < Math.round(statistic[demographic]); ind++) {
+            data[ind][statisticKey] = 1;
           }
+        } else {
+          // Randomise circles
+          shuffledIndexes
+            .slice(0, Math.round(statistic[demographic]))
+            .forEach((index) => {
+              data[index][statisticKey] = 1;
+            });
         }
 
-        allKeys["empty set"] = "Australia";
-        allKeys["empty set FN"] = "First Nations chonic conditions";
-        allKeys["single circle"] = null;
-      });
+        allKeys[statisticKey] = populationKey;
+      }
+    }
 
-      let chartDemographic = "single circle";
+    allKeys["empty set"] = "Australia";
+    allKeys["empty set FN"] = "First Nations chonic conditions";
+    allKeys["single circle"] = null;
+  });
 
-      const chart = new D3Chart(
-        ".chart_wrapper",
-        data,
-        chartDemographic,
-        allKeys,
-        60, // Set interval based on refresh rate,
-        599
-      );
+  let chartDemographic = "single circle";
 
-      const resizeObserver = new ResizeObserver((entries) => {
-        chart.render();
-      });
+  const chart = new D3Chart(
+    ".chart_wrapper",
+    data,
+    chartDemographic,
+    allKeys,
+    599
+  );
 
-      resizeObserver.observe(document.querySelector(".chart_wrapper"));
+  const resizeObserver = new ResizeObserver(() => {
+    chart.render();
+  });
 
-      const chartElement = document.querySelector(".circle_chart");
+  resizeObserver.observe(document.querySelector(".chart_wrapper"));
 
-      gsap.utils
-        .toArray(".interactive1 .chapter")
-        .forEach((step, index, arr) => {
-          ScrollTrigger.create({
-            trigger: step,
-            start: `top 80%`,
-            onToggle: (self) => {
-              if (index === 0 && self.direction < 0) {
-                chart.update("start");
-                chartElement.classList.remove("make_visible");
-              }
+  const chartElement = document.querySelector(".circle_chart");
 
-              if (self.isActive) {
-                chart.update(step.dataset.stat);
-              }
-            },
-            // onLeave: () => {
-            //   if (index === arr.length - 1) {
-            //     // chart.pause();
-            //   }
-            // },
-          });
-        });
-    })
-    .catch((error) => console.log(error));
+  gsap.utils.toArray(".interactive1 .chapter").forEach((step, index, arr) => {
+    ScrollTrigger.create({
+      trigger: step,
+      start: `top 80%`,
+      onToggle: (self) => {
+        if (index === 0 && self.direction < 0) {
+          chart.update("start");
+          chartElement.classList.remove("make_visible");
+        }
+
+        if (self.isActive) {
+          chart.update(step.dataset.stat);
+        }
+      },
+    });
+  });
 }
 
 function createTitle() {
@@ -748,8 +874,6 @@ document.addEventListener("DOMContentLoaded", () => {
   createInteractive();
 
   createTitle();
-
-  // createScrollFades();
 
   document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
     img.addEventListener("load", function () {
